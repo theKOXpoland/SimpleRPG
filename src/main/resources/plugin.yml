@@ -1,0 +1,12 @@
+name: SimpleRPG
+version: 1.0
+main: mc.theKOXpoland.SimpleRPG.MainFile
+author: theKOXpoland
+api-version: "1.20"
+depend: [CommandAPI]
+
+commands:
+  testsummon:
+    aliases: [ts]
+  spiraltest:
+    aliases: [st]

@@ -1,0 +1,16 @@
+Armors:
+  ShowcaseItem:
+    ItemMaterialType: IRON_BOOTS
+    ItemAmount: '1'
+    ItemName: ShowcaseArmorItem
+    #Podstawowy damage to 1, każda liczba poniżej jest DODAWANA do 1
+    Unbreakable: true
+    DisplayName: '<grey>Showcase item name'
+    Lore:
+      LoreText:
+        - ''
+        - '<grey>Buty dające styl'
+        - '<grey>Oraz prędkość wiatru'
+        - ''
+    Enchants:
+      Enchant: luck_of_the_sea:1,unbreaking:3

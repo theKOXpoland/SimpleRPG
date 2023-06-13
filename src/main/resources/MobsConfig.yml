@@ -1,0 +1,32 @@
+Mobs:
+  ShowcaseMob:
+    EntityType: ZOMBIE
+    MobName: ShowcaseMob
+    Health: 10
+    DropedEXP: 0
+    DisplayName: "<red>Showcase Mob name"
+    CustomType: "Hostile"
+    CustomNameVisible: true
+    BurnInDay: false
+    HasAI: false
+    isBaby: false
+    Equipement:
+      Helmet:
+        Item: IRON_HELMET
+        Enchants: None
+      Chestplate:
+        Item: IRON_CHESTPLATE
+        Enchants: luck_of_the_sea:1,unbreaking:5
+      Leggings:
+        Item: None
+        Enchants: luck_of_the_sea:1
+      Boots:
+        Item: IRON_BOOTS
+        Enchants: luck_of_the_sea:1
+      MainHand:
+        Item: IRON_SWORD
+        Enchants: luck_of_the_sea:1
+      OffHand:
+        Item: IRON_SWORD
+        Enchants: luck_of_the_sea:1
+    Drop: [None:10, PodstawowaNazwa2:40, PodstawowaNazwa1:40]
