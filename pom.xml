@@ -45,24 +45,24 @@
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.20-R0.1-SNAPSHOT</version>
+            <version>1.20.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>dev.jorel</groupId>
             <artifactId>commandapi-bukkit-core</artifactId>
-            <version>9.0.2</version>
+            <version>9.0.3</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>dev.jorel</groupId>
             <artifactId>commandapi-core</artifactId>
-            <version>9.0.2</version>
+            <version>9.0.3</version>
         </dependency>
         <dependency>
             <groupId>dev.jorel</groupId>
             <artifactId>commandapi-preprocessor</artifactId>
-            <version>9.0.2</version>
+            <version>9.0.3</version>
         </dependency>
         <dependency>
             <groupId>com.comphenix.protocol</groupId>
