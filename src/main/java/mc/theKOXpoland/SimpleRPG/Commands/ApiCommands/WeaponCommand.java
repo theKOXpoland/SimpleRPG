@@ -17,7 +17,7 @@ public class WeaponCommand extends CommandAPICommand {
 
         executes((sender, args) -> {
             Player player = (Player) sender;
-            String item = args.get(0).toString();
+            String item = String.valueOf(args.get(0));
 
             if (CustomItemsManager.getCustomItemsMap().containsKey(item)) {
                 ItemStack itemStack = CustomItemsManager.getCustomItemsMap().get(item);

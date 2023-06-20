@@ -3,7 +3,6 @@ package mc.theKOXpoland.SimpleRPG.Customs;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mc.theKOXpoland.SimpleRPG.MainFile;
-import mc.theKOXpoland.SimpleRPG.Skills.Dash;
 import mc.theKOXpoland.SimpleRPG.Utils.Util;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;

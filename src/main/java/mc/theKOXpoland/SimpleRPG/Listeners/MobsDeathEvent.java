@@ -1,6 +1,5 @@
 package mc.theKOXpoland.SimpleRPG.Listeners;
 
-import mc.theKOXpoland.SimpleRPG.Customs.CustomWeapon;
 import mc.theKOXpoland.SimpleRPG.Customs.CustomMob;
 import mc.theKOXpoland.SimpleRPG.MainFile;
 import mc.theKOXpoland.SimpleRPG.Managers.CustomItemsManager;
@@ -32,7 +31,8 @@ public class MobsDeathEvent implements Listener {
 
         if (dedEntity.getPersistentDataContainer().has(plugin.Key_NBT_Name)) {
             for (String key : MobsManager.customMobMap.keySet()) {
-                if (dedEntity.getPersistentDataContainer().get(plugin.Key_NBT_Name, PersistentDataType.STRING).contains(key)) {
+                String bntName = dedEntity.getPersistentDataContainer().get(plugin.Key_NBT_Name, PersistentDataType.STRING);
+                if (bntName != null && bntName.contains(key)) {
                     CustomMob killedMob = MobsManager.customMobMap.get(key);
                     event.setDroppedExp(killedMob.getDroppedExp());
 
@@ -85,11 +85,11 @@ public class MobsDeathEvent implements Listener {
                             event.getDrops().add(choosenDrop);
 
                             if (choosenDrop.getItemMeta() != null) {
-                                System.out.println(dedEntity.getPersistentDataContainer().get(plugin.Key_NBT_Name, PersistentDataType.STRING)
+                                System.out.println(bntName
                                         + " dropped " + choosenDrop.getItemMeta().getPersistentDataContainer()
                                         .get(plugin.Key_NBT_Name, PersistentDataType.STRING));
                             } else {
-                                System.out.println(dedEntity.getPersistentDataContainer().get(plugin.Key_NBT_Name, PersistentDataType.STRING)
+                                System.out.println(bntName
                                         + " dropped " + choosenDrop.getType());
                             }
                         }

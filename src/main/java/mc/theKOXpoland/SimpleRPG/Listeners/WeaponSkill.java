@@ -125,9 +125,10 @@ public class WeaponSkill implements Listener {
                 switch (secondSkillKey) {
                     case "test2":
                         event.setCancelled(true);
-                        player.sendMessage(Util.fix("&a&lŁo chuj!"));
-                        CooldownManager.setCooldown(player.getUniqueId(), 10.0);
-                        new CooldownTask(plugin).runTaskTimer(plugin, 0, 20);
+                        if (!CooldownManager.hasCooldown(player.getUniqueId())) {
+                            player.sendMessage(Util.mm("<red>Skill!"));
+                            CooldownManager.setCooldown(player.getUniqueId(), 10);
+                        }
                         break;
                     case "test1":
                         // code block

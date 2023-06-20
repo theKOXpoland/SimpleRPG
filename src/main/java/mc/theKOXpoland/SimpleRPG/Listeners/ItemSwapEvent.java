@@ -45,7 +45,7 @@ public class ItemSwapEvent implements Listener {
         ItemStack item = player.getInventory().getItemInOffHand();
         Inventory inv = player.getInventory();
 
-        if (item == null || item.getType() == Material.AIR) {
+        if (item.getType() == Material.AIR) {
             return;
         }
 
@@ -70,7 +70,7 @@ public class ItemSwapEvent implements Listener {
         ItemStack item = player.getInventory().getItemInOffHand();
         Inventory inv = player.getInventory();
 
-        if (item == null || item.getType() == Material.AIR) {
+        if (item.getType() == Material.AIR) {
             return;
         }
 
@@ -96,7 +96,7 @@ public class ItemSwapEvent implements Listener {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
 
-        if (item == null || item.getType() == Material.AIR) {
+        if (item.getType() == Material.AIR) {
             return;
         }
 
@@ -113,7 +113,7 @@ public class ItemSwapEvent implements Listener {
         Inventory inv = player.getInventory();
         ItemStack item = player.getInventory().getItemInOffHand();
 
-        if (item == null || item.getType() == Material.AIR) {
+        if (item.getType() == Material.AIR) {
             return;
         }
 

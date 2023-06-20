@@ -1,7 +1,6 @@
 package mc.theKOXpoland.SimpleRPG.Listeners;
 
 import mc.theKOXpoland.SimpleRPG.Customs.CustomMob;
-import mc.theKOXpoland.SimpleRPG.MainFile;
 import mc.theKOXpoland.SimpleRPG.Managers.MobsManager;
 import mc.theKOXpoland.SimpleRPG.Utils.Util;
 import org.bukkit.Location;
@@ -15,11 +14,6 @@ import java.time.temporal.ValueRange;
 import java.util.*;
 
 public class MobsRespawnEvent implements Listener {
-
-    private static MainFile plugin;
-    public MobsRespawnEvent(MainFile plugin) {
-        MobsRespawnEvent.plugin = plugin;
-    }
 
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent event) {

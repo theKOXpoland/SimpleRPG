@@ -7,6 +7,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.UUID;
+
 public class CooldownTask extends BukkitRunnable {
 
     MainFile plugin;
@@ -16,22 +18,24 @@ public class CooldownTask extends BukkitRunnable {
 
     @Override
     public void run() {
-
-        if (CooldownManager.cooldowns.isEmpty()) {
-            this.cancel();
+        if (CooldownManager.getCooldowns().isEmpty()) {
             return;
         }
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            Double timeLeft = CooldownManager.getCooldown(player.getUniqueId());
-            if (timeLeft > 0) {
-                CooldownManager.setCooldown(player.getUniqueId(), --timeLeft);
-                player.sendActionBar(Util.mm("<dark_red><bold>! <red>Attack <grey>Cooldown: <dark_grey>" + Util.roundDouble(timeLeft, 2)
-                        + " <dark_red><bold>!<reset>"));
+        for (UUID uuid : CooldownManager.getCooldowns().keySet()) {
+            Player player = Bukkit.getPlayer(uuid);
+
+            if (player == null) {
+                continue;
             }
-            if (timeLeft <= 0) {
-                player.sendActionBar(Util.mm("<green><bold>Cooldown <green>is no more!"));
-                this.cancel();
+
+            long cooldown = CooldownManager.getCooldown(uuid);
+
+            if (cooldown <= 0) {
+                player.sendActionBar(Util.mm(""));
+            } else {
+                player.sendActionBar(Util.mm("<dark_red><bold>! <red>Attack <grey>Cooldown: <dark_grey>" + Util.roundDouble(cooldown, 2)
+                        + " <dark_red><bold>!<reset>"));
             }
         }
     }

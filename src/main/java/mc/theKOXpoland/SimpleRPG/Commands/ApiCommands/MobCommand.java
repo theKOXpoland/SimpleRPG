@@ -15,7 +15,7 @@ public class MobCommand extends CommandAPICommand {
 
         executes((sender, args) -> {
             Player player = (Player) sender;
-            String mob = args.get(0).toString();
+            String mob = String.valueOf(args.get(0));
 
             if (MobsManager.customMobMap.containsKey(mob)) {
                 MobsManager.customMobMap.get(mob).spawnEntity(player.getLocation());
