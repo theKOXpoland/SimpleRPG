@@ -56,74 +56,11 @@ public class CreateCommand {
 
         itemSubCommand.withSubcommands(weaponSubCommand, armorsSubCommand);
 
-        //tylko teraz tak: to powinno byc w klasie tej od armoru musisz zobaczyc na necie jak sie te executes robi w klasie bo juz nie pamietam jak sie tego api uzywalo
-        //z tym juz sobie powinienes poradzic
-
         CommandAPICommand createCommand = new CommandAPICommand("create")
                 .withSubcommand(itemSubCommand)
                 .withSubcommands(mobCommand);
 
         createCommand.register();
-       /*                 .withSubcommand(new CommandAPICommand("weapon"))//tu wywalalo blad? Ta, odpalić Ci abyś widział?ta
-                                .withArguments(weapons)
-
-                                .executes((sender, args) -> {
-                                    if (sender instanceof Player player) {
-                                        String test = (String) args[0];
-
-                                        if (CustomItemsManager.getCustomItemsMap().containsKey(test)) {
-                                            ItemStack itemStack = CustomItemsManager.getCustomItemsMap().get(test);
-                                            player.getInventory().addItem(itemStack);
-                                        }
-                                    }
-                                })
-                        .withSubcommand(new CommandAPICommand("armors"))
-                                .withArguments(armors)
-                                .executes((sender, args) -> {
-                                    if (sender instanceof Player player) {
-                                        String test = (String) args[0];
-
-                                        if (CustomItemsManager.getCustomItemsMap().containsKey(test)) {
-                                            ItemStack itemStack = CustomItemsManager.getCustomItemsMap().get(test);
-                                            player.getInventory().addItem(itemStack);
-                                        }
-                                    }
-                                })
-                )
-
-        */
-             /*   .withSubcommand(new CommandAPICommand("mob")
-                        .executes((sender, args) -> {
-                            if (sender instanceof Player player) {
-                                MobsManager.customMobsList.get(0).spawnEntity(player.getLocation());
-
-                                System.out.println(CustomItemsManager.getItemsNamesList());
-                            }
-                        })
-                )
-
-              */
-                /*.withSubcommand(new CommandAPICommand("test")
-                        .executes((sender, args) -> {
-                            if (sender instanceof Player player) {
-                                int change = (int) (Math.random() * 100);
-                                if (change < 50) { // 0-50
-                                    System.out.println("0-50");
-                                    System.out.println(change);
-                                }
-                                else if (change < 85) { // 50-84
-                                    System.out.println("80-84");
-                                    System.out.println(change);
-                                    int upper = CustomWeapon.customWeaponsList.size();
-                                    player.getInventory().addItem(CustomWeapon.customWeaponsList.get(Util.getRandomNumber(1, upper)));
-                                }
-                                else {// 85-99
-                                    System.out.println("85-99");
-                                    System.out.println(change);
-                                }
-                            }
-                        })
-                )*/
                 /*.withSubcommand(new CommandAPICommand("chest")
                         .executes((sender, args) -> {
                             if (sender instanceof Player player) {

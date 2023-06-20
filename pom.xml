@@ -6,7 +6,7 @@
 
     <groupId>McPlugin</groupId>
     <artifactId>SimpleRPG</artifactId>
-    <version>1.0</version>
+    <version>0.7.3</version>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>

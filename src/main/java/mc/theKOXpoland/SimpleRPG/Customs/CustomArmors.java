@@ -40,23 +40,23 @@ public class CustomArmors {
         ItemStack Item = new ItemStack(itemMaterialType, itemAmount);
         ItemMeta meta = Item.getItemMeta();
 
-        if (enchants.isEmpty()) {
-            plugin.getLogger().severe(itemName + " Setting default Enchants");
-            meta.addEnchant(Enchantment.LUCK, 1, true);
-        } else
-        if (!enchants.isEmpty()) {
+        if (enchants.isEmpty() || enchants.equals("None")) {
+            meta.setUnbreakable(true);
+        } else {
             String enchantment = enchants;
 
-            if (enchantment == null) {
-                plugin.getLogger().severe(itemName + " Setting default Enchants");
-                meta.addEnchant(Enchantment.LUCK, 1, true);
-            } else
-            if (enchantment != null) {
-                String[] splitedEnchants = enchantment.split(",");
-                for (String ench : splitedEnchants) {
+            String[] splitedEnchants = enchantment.split(",");
+            for (String ench : splitedEnchants) {
+                try {
                     String[] splitted = ench.split(":");
-                    meta.addEnchant(Enchantment.getByKey(NamespacedKey.minecraft(splitted[0].toLowerCase())), Integer.parseInt(splitted[1]), false);
-                    //Add anty wrong enchant system
+                    if (Enchantment.getByKey(NamespacedKey.minecraft(splitted[0].toLowerCase())) != null) {
+                        meta.addEnchant(Objects.requireNonNull(Enchantment.getByKey(NamespacedKey.minecraft(splitted[0].toLowerCase()))),
+                                Integer.parseInt(splitted[1]), false);
+                    }
+                    meta.setUnbreakable(true);
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(ench + " is wrong!");
+                    meta.setUnbreakable(true);
                 }
             }
         }

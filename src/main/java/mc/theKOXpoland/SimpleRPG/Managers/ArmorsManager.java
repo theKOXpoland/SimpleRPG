@@ -1,7 +1,6 @@
 package mc.theKOXpoland.SimpleRPG.Managers;
 
 import mc.theKOXpoland.SimpleRPG.Customs.CustomArmors;
-import mc.theKOXpoland.SimpleRPG.Customs.CustomWeapon;
 import mc.theKOXpoland.SimpleRPG.MainFile;
 import mc.theKOXpoland.SimpleRPG.Utils.Util;
 import net.kyori.adventure.text.Component;
@@ -10,7 +9,6 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ArmorsManager {
 
@@ -26,66 +24,105 @@ public class ArmorsManager {
     public void newArmors() {
 
         if (plugin.configManager.getArmorsConfg().getConfigurationSection("Armors.") == null) {
-            plugin.getLogger().severe("Ścieżka do Armors. jest nieprawidłowa!");
+            plugin.getLogger().severe("Path to Armors. is invalid!");
         }
 
         ConfigurationSection cfg = plugin.configManager.getArmorsConfg().getConfigurationSection("Armors.");
 
         if (cfg == null) {
-            plugin.getLogger().severe("CFG broni JEST NULLEM");
+            plugin.getLogger().severe("CFG armors is null");
             return;
         }
 
         for (String armor : cfg.getKeys(false)) {
 
-            Material itemMaterial = Material.getMaterial(cfg.getString(armor + ".ItemMaterialType").toUpperCase(Locale.ROOT));
+            Material itemMaterial = Material.IRON_BOOTS;
+            String itemMaterialPath = cfg.getString(armor + ".ItemMaterialType");
 
-            if (itemMaterial == null) {
-                plugin.getLogger().severe(armor + " Setting default IRON_BOOTS");
-                itemMaterial = Material.IRON_BOOTS;
+            if (itemMaterialPath != null) {
+                try {
+                    itemMaterial = Material.getMaterial(itemMaterialPath.toUpperCase());
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(armor + " Setting default IRON_BOOTS");
+                    itemMaterial = Material.IRON_BOOTS;
+                }
             }
 
-            String itemName = cfg.getString(armor + ".ItemName");
+            String itemName = "DefaultName";
+            String itemNamePath = cfg.getString(armor + ".ItemName");
 
-            if (itemName == null) {
-                plugin.getLogger().severe(armor + " Setting default Name");
-                itemName = "DefaultName";
+            if (itemNamePath != null) {
+                try {
+                    itemName = itemNamePath;
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(armor + " Setting default itemName to DefaultName");
+                    itemName = "DefaultName";
+                }
             }
 
-            String displayName = cfg.getString(armor + ".DisplayName");
+            String displayName = "<red>Default Display Name";
+            String displayNamePath = cfg.getString(armor + ".DisplayName");
 
-            if (displayName == null) {
-                plugin.getLogger().severe(armor + " Setting default displayName");
-                displayName = "<red>Default Display Name";
+            if (displayNamePath != null) {
+                try {
+                    displayName = displayNamePath;
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(armor + " Setting default displayName to <red>Default Display Name");
+                    displayName = "<red>Default Display Name";
+                }
             }
 
-            int itemAmount = Integer.parseInt(cfg.getString(armor + ".ItemAmount"));
+            int itemAmount = 1;
+            String itemAmountPath = cfg.getString(armor + ".ItemAmount");
 
-            if (itemAmount <= 0) {
-                plugin.getLogger().severe(armor + " Setting default 1 itemAmount");
-                itemAmount = 1;
+            if (itemAmountPath != null) {
+                try {
+                    itemAmount = Integer.parseInt(itemAmountPath);
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(armor + " Setting default itemAmount to 1");
+                    itemAmount = 1;
+                }
+                if (itemAmount <= 0) {
+                    plugin.getLogger().severe(armor + " Setting default itemAmount to 1");
+                    itemAmount = 1;
+                }
             }
 
-            boolean unbreakable = cfg.getBoolean(armor + ".Unbreakable");
+            boolean unbreakable = true;
+            String unbreakablePath = cfg.getString(armor + ".Unbreakable");
+
+            if (unbreakablePath != null) {
+                try {
+                    unbreakable = Boolean.parseBoolean(unbreakablePath);
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(armor + " Setting default unbreakable to true");
+                    unbreakable = true;
+                }
+            }
 
             ConfigurationSection enchantments = cfg.getConfigurationSection(armor + ".Enchants");
 
-            String enchants = "";
+            String enchants = "None";
 
             if (enchantments != null) {
-
-                enchants = enchantments.getString(".Enchant");
-
+                try {
+                    enchants = enchantments.getString(".Enchant");
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(armor + " Setting default enchants to None");
+                    enchants = "None";
+                }
             }
 
 
             ConfigurationSection cfgLore = cfg.getConfigurationSection(armor + ".Lore");
 
+            List<Component> loreList = new ArrayList<>();
+
             if (cfgLore == null) {
                 plugin.getLogger().severe(armor + " cfgLore nie istnieje");
+                loreList.add(Util.mm("Basic lore cause cfgLore for armor is invalid!"));
             }
 
-            List<Component> loreList = new ArrayList<>();
             if (cfgLore != null) {
                 for (String lorePart : cfgLore.getStringList(".LoreText")) {
                     loreList.add(Util.mm(lorePart));

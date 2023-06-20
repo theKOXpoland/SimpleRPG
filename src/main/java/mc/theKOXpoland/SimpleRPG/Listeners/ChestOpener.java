@@ -11,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.loot.Lootable;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.time.temporal.ValueRange;
@@ -36,74 +35,72 @@ public class ChestOpener implements Listener {
         if (event.getClickedBlock() != null) {
             if (event.getClickedBlock().getType() == Material.CHEST) {
                 Chest chest = (Chest) event.getClickedBlock().getState();
-                if (chest instanceof Lootable) {
-                    if (chest.hasLootTable()) {
-                        if (!chest.hasPlayerLooted(player) || !chest.getBlockInventory().isEmpty()) {
-                            int randomNumber = (int) (Math.random() * 100);
-                            int percent = plugin.configManager.getChestConfig().getInt("itemChance");
-                            //Losuje liczbę od 0 do 99, jeżeli liczba jest mniejsza-równa procentowi, to następuje akcja
-                            if (randomNumber < percent) {
+                if (chest.hasLootTable()) {
+                    if (!chest.hasPlayerLooted(player) || !chest.getBlockInventory().isEmpty()) {
+                        int randomNumber = (int) (Math.random() * 100);
+                        int percent = plugin.configManager.getChestConfig().getInt("itemChance");
+                        //Getting random number from 0 to 99, if number is <= % form config, then action is a go
+                        if (randomNumber <= percent) {
 
-                                Map<Integer, Integer> slotList = new HashMap<>();
+                            Map<Integer, Integer> slotList = new HashMap<>();
 
-                                for (int i = 0; i < chest.getBlockInventory().getSize(); i++) {
+                            for (int i = 0; i < chest.getBlockInventory().getSize(); i++) {
 
-                                    List<Integer> slots = new ArrayList<>();
+                                List<Integer> slots = new ArrayList<>();
 
-                                    Inventory chestInventory = chest.getBlockInventory();
-                                    ItemStack item = chestInventory.getItem(i);
+                                Inventory chestInventory = chest.getBlockInventory();
+                                ItemStack item = chestInventory.getItem(i);
 
-                                        if (item == null || item.getType() == Material.AIR ) {
-                                            slots.add(i);
-                                            for (int j = 0; j < slots.size(); j++) {
-                                                slotList.put(j, i);
-                                            }
+                                    if (item == null || item.getType() == Material.AIR ) {
+                                        slots.add(i);
+                                        for (int j = 0; j < slots.size(); j++) {
+                                            slotList.put(j, i);
                                         }
-                                }
+                                    }
+                            }
 
-                                List<String> weapons = plugin.configManager.getChestConfig().getStringList("items");
+                            List<String> weapons = plugin.configManager.getChestConfig().getStringList("items");
 
-                                double totalChance = 0;
-                                double splitedChance;
-                                double firstNumber = 0;
-                                ValueRange range;
+                            double totalChance = 0;
+                            double splitedChance;
+                            double firstNumber = 0;
+                            ValueRange range;
 
-                                Map<ValueRange, ItemStack> rangeItem = new HashMap<>();
+                            Map<ValueRange, ItemStack> rangeItem = new HashMap<>();
 
-                                for (String wepString : weapons) {
-                                    String[] splitedWeapons = wepString.split(":");
-                                    for (String key : CustomWeapon.customWeaponsMap.keySet()) {
-                                        if (splitedWeapons[0].equals(key)) {
-                                            if (!rangeItem.containsValue(CustomWeapon.customWeaponsMap.get(key))) {
+                            for (String wepString : weapons) {
+                                String[] splitedWeapons = wepString.split(":");
+                                for (String key : CustomWeapon.customWeaponsMap.keySet()) {
+                                    if (splitedWeapons[0].equals(key)) {
+                                        if (!rangeItem.containsValue(CustomWeapon.customWeaponsMap.get(key))) {
 
-                                                splitedChance = Double.parseDouble(splitedWeapons[1]);
+                                            splitedChance = Double.parseDouble(splitedWeapons[1]);
 
-                                                totalChance = totalChance + splitedChance;
+                                            totalChance = totalChance + splitedChance;
 
-                                                range = ValueRange.of((long) firstNumber, (long) totalChance);
-                                                rangeItem.put(range, CustomWeapon.customWeaponsMap.get(key));
+                                            range = ValueRange.of((long) firstNumber, (long) totalChance);
+                                            rangeItem.put(range, CustomWeapon.customWeaponsMap.get(key));
 
-                                                firstNumber = firstNumber + splitedChance;
-                                            }
+                                            firstNumber = firstNumber + splitedChance;
                                         }
                                     }
                                 }
+                            }
 
-                                double random = Math.random() * totalChance;
+                            double random = Math.random() * totalChance;
 
-                                Set<ValueRange> rangeList = rangeItem.keySet();
-                                for (ValueRange keys : rangeList) {
-                                    if (keys.isValidValue((long) Util.roundDouble(random, 2))) {
+                            Set<ValueRange> rangeList = rangeItem.keySet();
+                            for (ValueRange keys : rangeList) {
+                                if (keys.isValidValue((long) Util.roundDouble(random, 2))) {
 
-                                        int slot = Util.getRandomNumber(0, slotList.get(Util.getRandomNumber(0, slotList.size())));
+                                    int slot = Util.getRandomNumber(0, slotList.get(Util.getRandomNumber(0, slotList.size())));
 
-                                        ItemStack chosenWeapon = rangeItem.get(keys);
+                                    ItemStack chosenWeapon = rangeItem.get(keys);
 
-                                        chest.getBlockInventory().setItem(slot, chosenWeapon);
+                                    chest.getBlockInventory().setItem(slot, chosenWeapon);
 
-                                        System.out.println(player.getName() + " wysolowal " + chosenWeapon.getItemMeta().getPersistentDataContainer()
-                                                .get(plugin.Key_NBT_Name, PersistentDataType.STRING) + " na kordach " + chest.getLocation().getBlock());
-                                    }
+                                    System.out.println(player.getName() + " wysolowal " + chosenWeapon.getItemMeta().getPersistentDataContainer()
+                                            .get(plugin.Key_NBT_Name, PersistentDataType.STRING) + " na kordach " + chest.getLocation().getBlock());
                                 }
                             }
                         }
@@ -112,5 +109,4 @@ public class ChestOpener implements Listener {
             }
         }
     }
-
 }

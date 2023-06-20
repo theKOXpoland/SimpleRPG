@@ -1,5 +1,5 @@
 name: SimpleRPG
-version: 0.7
+version: 0.7.3
 main: mc.theKOXpoland.SimpleRPG.MainFile
 author: theKOXpoland
 api-version: "1.20"

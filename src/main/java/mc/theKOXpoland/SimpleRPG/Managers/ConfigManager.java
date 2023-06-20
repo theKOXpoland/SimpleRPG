@@ -116,7 +116,7 @@ public class ConfigManager {
         if (armorsConfg == null || armorsConfigFile == null)
             return;
         try {
-            getMobsConfig().save(this.armorsConfigFile);
+            getArmorsConfg().save(this.armorsConfigFile);
         } catch (IOException e) {
             plugin.getLogger().severe("Nie dziala");
         }

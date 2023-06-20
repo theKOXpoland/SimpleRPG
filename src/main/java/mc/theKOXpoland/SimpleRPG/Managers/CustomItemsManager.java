@@ -21,16 +21,21 @@ public class CustomItemsManager {
 
         return customItemsList;
     }
-    public static List<String> getItemsNamesList() {
-        customItemsNames.addAll(CustomWeapon.weaponsNames);
-        customItemsNames.addAll(CustomArmors.armorsName);
 
+    public static List<String> getItemsNamesList() {
         return customItemsNames;
     }
+
     public static Map<String, ItemStack> getCustomItemsMap() {
+        return customItemsMap;
+    }
+
+    public static void loadItemsNamesList() {
+        customItemsNames.addAll(CustomWeapon.weaponsNames);
+        customItemsNames.addAll(CustomArmors.armorsName);
+    }
+    public static void loadCustomItemsMap() {
         customItemsMap.putAll(CustomWeapon.customWeaponsMap);
         customItemsMap.putAll(CustomArmors.customArmorsMap);
-
-        return customItemsMap;
     }
 }

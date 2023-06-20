@@ -1,20 +1,19 @@
 package mc.theKOXpoland.SimpleRPG.Listeners;
 
-import mc.theKOXpoland.SimpleRPG.MainFile;
+import mc.theKOXpoland.SimpleRPG.Customs.CustomMob;
 import mc.theKOXpoland.SimpleRPG.Managers.MobsManager;
+import mc.theKOXpoland.SimpleRPG.Utils.Util;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Monster;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 
-public class MobsRespawnEvent implements Listener {
+import java.time.temporal.ValueRange;
+import java.util.*;
 
-    private static MainFile plugin;
-    public MobsRespawnEvent(MainFile plugin) {
-        MobsRespawnEvent.plugin = plugin;
-    }
+public class MobsRespawnEvent implements Listener {
 
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent event) {
@@ -22,33 +21,77 @@ public class MobsRespawnEvent implements Listener {
         MobsManager.mobLocation(location);
         if (event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.NATURAL)) {
             Entity entity = event.getEntity();
-            if (entity instanceof Monster) {
-                event.setCancelled(true);
-            }
-            if (!(entity instanceof Monster)) {
-                int randomNumber = (int) (Math.random() * 100);
-                if (randomNumber <= 79) {
-                    MobsManager.customMobsList.get(0);
-                    event.setCancelled(true);
+
+            double totalChance = 0;
+            double splitedChance;
+            double firstNumber = 0;
+
+            ValueRange range;
+
+            Map<ValueRange, String> rangeResp = new HashMap<>();
+            List<EntityType> mobsList = new ArrayList<>();
+
+            for (CustomMob customMob : MobsManager.customMobsList) {
+                if (!customMob.isRespNaturally()) {
+                    return;
+                }
+                if (customMob.isRespNaturally()) {
+                    for (String respawnInstead : customMob.getRespInstead()) {
+                        String[] splitted = respawnInstead.split(":");
+                        if (splitted[0].equals("Default")) {
+                            splitedChance = Double.parseDouble(splitted[1]);
+
+                            totalChance = totalChance + splitedChance;
+
+                            range = ValueRange.of((long) firstNumber, (long) totalChance);
+                            rangeResp.put(range, entity.getName());
+
+                            firstNumber = firstNumber + splitedChance;
+                        } else {
+                            EntityType splitEdentityType = EntityType.valueOf(splitted[0].toUpperCase());
+                            mobsList.add(splitEdentityType);
+                            if (entity.getType() == splitEdentityType) {
+                                splitedChance = Double.parseDouble(splitted[1]);
+
+                                totalChance = totalChance + splitedChance;
+
+                                range = ValueRange.of((long) firstNumber, (long) totalChance);
+                                rangeResp.put(range, customMob.getName());
+
+                                firstNumber = firstNumber + splitedChance;
+                            }
+                        }
+                    }
                 }
             }
-        }
-        if (event.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.SPAWNER_EGG)) {
 
-            if (MobsManager.customMobsList.size() == 0) {
+            if (!mobsList.contains(entity.getType())) {
                 return;
             }
 
-            Entity entity = event.getEntity();
-            if (entity instanceof Monster) {
-                MobsManager.customMobsList.get(0).spawnEntity(location);
-                event.setCancelled(true);
+            if (totalChance < 100) {
+                firstNumber = totalChance + 1;
+                splitedChance = (++totalChance - 100) * -1 + totalChance;
+                range = ValueRange.of((long) firstNumber, (long) splitedChance);
+                rangeResp.put(range, entity.getName());
             }
-            if (!(entity instanceof Monster)) {
-                int randomNumber = (int) (Math.random() * 1);
-                if (randomNumber <= 1) {
-                    event.setCancelled(true);
-                    MobsManager.customMobsList.get(0).spawnEntity(location);
+
+            double random = Math.random() * totalChance;
+
+            Set<ValueRange> rangeList = rangeResp.keySet();
+
+
+            for (ValueRange keys : rangeList) {
+                if (keys.isValidValue((long) Util.roundDouble(random, 2))) {
+                    String choosenResp = rangeResp.get(keys);
+
+                    if (choosenResp.equals(entity.getName())) {
+                        return;
+                    }
+                    else {
+                        event.setCancelled(true);
+                        MobsManager.customMobMap.get(choosenResp).spawnEntity(location);
+                    }
                 }
             }
         }

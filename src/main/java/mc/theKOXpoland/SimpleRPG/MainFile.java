@@ -1,24 +1,21 @@
 package mc.theKOXpoland.SimpleRPG;
 
 import dev.jorel.commandapi.CommandAPI;
-import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import mc.theKOXpoland.SimpleRPG.Commands.ApiCommands.ConfigCommand;
 import mc.theKOXpoland.SimpleRPG.Commands.ApiCommands.CreateCommand;
 import mc.theKOXpoland.SimpleRPG.Commands.SpiralTest;
-import mc.theKOXpoland.SimpleRPG.Commands.TestSummon;
 import mc.theKOXpoland.SimpleRPG.Customs.CustomArmors;
 import mc.theKOXpoland.SimpleRPG.Customs.CustomWeapon;
 import mc.theKOXpoland.SimpleRPG.Customs.CustomMob;
 import mc.theKOXpoland.SimpleRPG.Listeners.*;
 import mc.theKOXpoland.SimpleRPG.Managers.*;
+import mc.theKOXpoland.SimpleRPG.Tasks.CooldownTask;
 import mc.theKOXpoland.SimpleRPG.Tasks.ItemHeldTask;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.Objects;
-import java.util.function.Function;
 
 public class MainFile extends JavaPlugin {
 
@@ -40,8 +37,6 @@ public class MainFile extends JavaPlugin {
 
     @Override
     public void onLoad() {
-
-        //CommandAPI.onLoad(new CommandAPIBukkitConfig(this).verboseOutput(true));
 
         configManager = new ConfigManager(this);
         weaponManager = new WeaponManager(this);
@@ -73,20 +68,20 @@ public class MainFile extends JavaPlugin {
         mobManager.init();
         armorsManager.init();
 
-        CustomItemsManager.getItemsNamesList();
-        CustomItemsManager.getCustomItemsMap();
-
-        Objects.requireNonNull(getCommand("testsummon")).setExecutor(new TestSummon());
+        CustomItemsManager.loadItemsNamesList();
+        CustomItemsManager.loadCustomItemsMap();
+        
         Objects.requireNonNull(getCommand("spiraltest")).setExecutor(new SpiralTest(this));
 
         Bukkit.getPluginManager().registerEvents(new ItemDepravation(this),this);
         Bukkit.getPluginManager().registerEvents(new ItemSwapEvent(this),this);
         Bukkit.getPluginManager().registerEvents(new WeaponSkill(this),this);
-        Bukkit.getPluginManager().registerEvents(new MobsRespawnEvent(this),this);
+        Bukkit.getPluginManager().registerEvents(new MobsRespawnEvent(),this);
         Bukkit.getPluginManager().registerEvents(new ChestOpener(this), this);
         Bukkit.getPluginManager().registerEvents(new MobsDeathEvent(this), this);
 
         new ItemHeldTask(this).runTaskTimer(this,0L,getConfig().getInt("ItemHeldTask") * 20L);
+        new CooldownTask(this).runTaskTimer(this, 0, 20);
 
         Bukkit.getLogger().info("[SimpleRPG]" + ANSI_GREEN + " Activated!" +  ANSI_RESET);
     }
@@ -94,18 +89,8 @@ public class MainFile extends JavaPlugin {
     @Override
     public void onDisable() {
         CommandAPI.onDisable();
-       // configManager.saveConfigs();
+        configManager.saveConfig();
 
     }
-
-   /* public static abstract class CommandAPIConfig {
-        abstract CommandAPIConfig verboseOutput(boolean value); // Enables verbose logging
-        abstract CommandAPIConfig silentLogs(boolean value);    // Disables ALL logging (except errors)
-        abstract CommandAPIConfig useLatestNMSVersion(boolean value); // Whether the latest NMS implementation should be used or not
-        abstract CommandAPIConfig missingExecutorImplementationMessage(String value); // Set message to display when executor implementation is missing
-        abstract CommandAPIConfig dispatcherFile(File file); // If not null, the CommandAPI will create a JSON file with Brigadier's command tree
-
-        abstract <T> CommandAPIConfig initializeNBTAPI(Class<T> nbtContainerClass, Function<Object, T> nbtContainerConstructor); // Initializes hooks with an NBT API. See NBT arguments documentation page for more info
-    }*/
 
 }

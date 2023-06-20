@@ -2,7 +2,9 @@ package mc.theKOXpoland.SimpleRPG.Listeners;
 
 import mc.theKOXpoland.SimpleRPG.Customs.CustomWeapon;
 import mc.theKOXpoland.SimpleRPG.MainFile;
+import mc.theKOXpoland.SimpleRPG.Managers.CooldownManager;
 import mc.theKOXpoland.SimpleRPG.Skills.Dash;
+import mc.theKOXpoland.SimpleRPG.Tasks.CooldownTask;
 import mc.theKOXpoland.SimpleRPG.Utils.Util;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -83,15 +85,17 @@ public class WeaponSkill implements Listener {
                         return;
                     }
 
-                    switch (firstSkillKey) {
-                        case "test1":
-                            event.setCancelled(true);
-                            Dash.dash(player);
-                            player.setCooldown(item.getType(), 100);
-                            break;
-                        case "test2":
-                            // code block
-                            break;
+                    if (firstSkillKey != null) {
+                        switch (firstSkillKey) {
+                            case "test1":
+                                event.setCancelled(true);
+                                Dash.dash(player);
+                                player.setCooldown(item.getType(), 100);
+                                break;
+                            case "test2":
+                                // code block
+                                break;
+                        }
                     }
                 }
 
@@ -110,18 +114,28 @@ public class WeaponSkill implements Listener {
         if (meta.getPersistentDataContainer().has(plugin.Key_NBT_Second_Attack)) {
 
             String secondSkillKey = meta.getPersistentDataContainer().get(plugin.Key_NBT_Second_Attack, PersistentDataType.STRING);
+            Player player = event.getPlayer();
 
-            switch (secondSkillKey) {
-                case "test1":
-                    event.setCancelled(true);
-                    Player player = event.getPlayer();
-                    player.sendMessage(Util.fix("&a&lŁo chuj!"));
-                    break;
-                case "test2":
-                    // code block
-                    break;
-                default:
-                    // code block
+            if (CooldownManager.hasCooldown(player.getUniqueId())) {
+                event.setCancelled(true);
+                return;
+            }
+
+            if (secondSkillKey != null) {
+                switch (secondSkillKey) {
+                    case "test2":
+                        event.setCancelled(true);
+                        if (!CooldownManager.hasCooldown(player.getUniqueId())) {
+                            player.sendMessage(Util.mm("<red>Skill!"));
+                            CooldownManager.setCooldown(player.getUniqueId(), 10);
+                        }
+                        break;
+                    case "test1":
+                        // code block
+                        break;
+                    default:
+                        // code block
+                }
             }
         }
     }

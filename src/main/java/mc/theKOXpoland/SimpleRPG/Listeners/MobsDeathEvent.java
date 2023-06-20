@@ -1,6 +1,5 @@
 package mc.theKOXpoland.SimpleRPG.Listeners;
 
-import mc.theKOXpoland.SimpleRPG.Customs.CustomWeapon;
 import mc.theKOXpoland.SimpleRPG.Customs.CustomMob;
 import mc.theKOXpoland.SimpleRPG.MainFile;
 import mc.theKOXpoland.SimpleRPG.Managers.CustomItemsManager;
@@ -32,7 +31,8 @@ public class MobsDeathEvent implements Listener {
 
         if (dedEntity.getPersistentDataContainer().has(plugin.Key_NBT_Name)) {
             for (String key : MobsManager.customMobMap.keySet()) {
-                if (dedEntity.getPersistentDataContainer().get(plugin.Key_NBT_Name, PersistentDataType.STRING).contains(key)) {
+                String bntName = dedEntity.getPersistentDataContainer().get(plugin.Key_NBT_Name, PersistentDataType.STRING);
+                if (bntName != null && bntName.contains(key)) {
                     CustomMob killedMob = MobsManager.customMobMap.get(key);
                     event.setDroppedExp(killedMob.getDroppedExp());
 
@@ -46,6 +46,7 @@ public class MobsDeathEvent implements Listener {
                     for (String wepString :  killedMob.getMobDrop()) {
                         String[] splitedWeapons = wepString.split(":");
                         if (Material.matchMaterial(splitedWeapons[0]) != null || splitedWeapons[0].equals("None")) {
+
                             splitedChance = Double.parseDouble(splitedWeapons[1]);
 
                             totalChance = totalChance + splitedChance;
@@ -67,7 +68,6 @@ public class MobsDeathEvent implements Listener {
                                     range = ValueRange.of((long) firstNumber, (long) totalChance);
                                     rangeItem.put(range, CustomItemsManager.getCustomItemsMap().get(dropedItem));
 
-
                                     firstNumber = firstNumber + splitedChance;
                                 }
                             }
@@ -85,12 +85,12 @@ public class MobsDeathEvent implements Listener {
                             event.getDrops().add(choosenDrop);
 
                             if (choosenDrop.getItemMeta() != null) {
-                                System.out.println(dedEntity.getPersistentDataContainer().get(plugin.Key_NBT_Name, PersistentDataType.STRING)
-                                        + " dropnął " + choosenDrop.getItemMeta().getPersistentDataContainer()
+                                System.out.println(bntName
+                                        + " dropped " + choosenDrop.getItemMeta().getPersistentDataContainer()
                                         .get(plugin.Key_NBT_Name, PersistentDataType.STRING));
                             } else {
-                                System.out.println(dedEntity.getPersistentDataContainer().get(plugin.Key_NBT_Name, PersistentDataType.STRING)
-                                        + " dropnął " + choosenDrop.getType());
+                                System.out.println(bntName
+                                        + " dropped " + choosenDrop.getType());
                             }
                         }
                     }

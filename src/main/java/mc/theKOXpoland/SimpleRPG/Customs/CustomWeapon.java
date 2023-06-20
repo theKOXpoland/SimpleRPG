@@ -3,7 +3,6 @@ package mc.theKOXpoland.SimpleRPG.Customs;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import mc.theKOXpoland.SimpleRPG.MainFile;
-import mc.theKOXpoland.SimpleRPG.Skills.Dash;
 import mc.theKOXpoland.SimpleRPG.Utils.Util;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
@@ -50,26 +49,26 @@ public class CustomWeapon {
         ItemStack Item = new ItemStack(itemMaterialType, itemAmount);
         ItemMeta meta = Item.getItemMeta();
 
-        if (enchants.isEmpty()) {
-            plugin.getLogger().severe(itemName + " Setting default Enchants");
-            meta.addEnchant(Enchantment.LUCK, 1, true);
-        } else
-            if (!enchants.isEmpty()) {
-                String enchantment = enchants;
+        if (enchants.isEmpty() || enchants.equals("None")) {
+            meta.setUnbreakable(true);
+        } else {
+            String enchantment = enchants;
 
-                if (enchantment == null) {
-                    plugin.getLogger().severe(itemName + " Setting default Enchants");
-                    meta.addEnchant(Enchantment.LUCK, 1, true);
-                } else
-                if (enchantment != null) {
-                    String[] splitedEnchants = enchantment.split(",");
-                    for (String ench : splitedEnchants) {
-                        String[] splitted = ench.split(":");
-                        meta.addEnchant(Enchantment.getByKey(NamespacedKey.minecraft(splitted[0].toLowerCase())), Integer.parseInt(splitted[1]), false);
-                        //Add anty wrong enchant system
+            String[] splitedEnchants = enchantment.split(",");
+            for (String ench : splitedEnchants) {
+                try {
+                    String[] splitted = ench.split(":");
+                    if (Enchantment.getByKey(NamespacedKey.minecraft(splitted[0].toLowerCase())) != null) {
+                        meta.addEnchant(Objects.requireNonNull(Enchantment.getByKey(NamespacedKey.minecraft(splitted[0].toLowerCase()))),
+                                Integer.parseInt(splitted[1]), false);
                     }
+                    meta.setUnbreakable(true);
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(ench + " is wrong!");
+                    meta.setUnbreakable(true);
                 }
             }
+        }
 
         NamespacedKey KeyNBTName = plugin.Key_NBT_Name;
         NamespacedKey KeyNBTtype = plugin.Key_NBT_Type;
