@@ -29,7 +29,6 @@ public class MainFile extends JavaPlugin {
     public CustomMob customMob;
     public CustomWeapon customWeapon;
     public CustomArmors customArmors;
-   // public CooldownManager cooldownManager;
 
     public NamespacedKey Key_NBT_Name = new NamespacedKey(this, "NBTName");
     public NamespacedKey Key_NBT_Type = new NamespacedKey(this, "NBTtype");
@@ -47,8 +46,6 @@ public class MainFile extends JavaPlugin {
         customMob = new CustomMob(this);
         customWeapon = new CustomWeapon(this);
         customArmors = new CustomArmors(this);
-
-        //cooldownManager = new CooldownManager();
 
         ConfigCommand confingCommand = new ConfigCommand(this);
         CreateCommand createCommand = new CreateCommand(this);
