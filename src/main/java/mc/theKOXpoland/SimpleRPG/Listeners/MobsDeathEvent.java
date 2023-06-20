@@ -46,6 +46,7 @@ public class MobsDeathEvent implements Listener {
                     for (String wepString :  killedMob.getMobDrop()) {
                         String[] splitedWeapons = wepString.split(":");
                         if (Material.matchMaterial(splitedWeapons[0]) != null || splitedWeapons[0].equals("None")) {
+
                             splitedChance = Double.parseDouble(splitedWeapons[1]);
 
                             totalChance = totalChance + splitedChance;
@@ -67,7 +68,6 @@ public class MobsDeathEvent implements Listener {
                                     range = ValueRange.of((long) firstNumber, (long) totalChance);
                                     rangeItem.put(range, CustomItemsManager.getCustomItemsMap().get(dropedItem));
 
-
                                     firstNumber = firstNumber + splitedChance;
                                 }
                             }
@@ -86,11 +86,11 @@ public class MobsDeathEvent implements Listener {
 
                             if (choosenDrop.getItemMeta() != null) {
                                 System.out.println(dedEntity.getPersistentDataContainer().get(plugin.Key_NBT_Name, PersistentDataType.STRING)
-                                        + " dropnął " + choosenDrop.getItemMeta().getPersistentDataContainer()
+                                        + " dropped " + choosenDrop.getItemMeta().getPersistentDataContainer()
                                         .get(plugin.Key_NBT_Name, PersistentDataType.STRING));
                             } else {
                                 System.out.println(dedEntity.getPersistentDataContainer().get(plugin.Key_NBT_Name, PersistentDataType.STRING)
-                                        + " dropnął " + choosenDrop.getType());
+                                        + " dropped " + choosenDrop.getType());
                             }
                         }
                     }

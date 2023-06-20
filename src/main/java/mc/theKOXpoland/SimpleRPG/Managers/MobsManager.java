@@ -37,121 +37,249 @@ public class MobsManager {
     private static void newMobs() {
 
         if (plugin.configManager.getMobsConfig().getConfigurationSection("Mobs.") == null) {
-            plugin.getLogger().severe("Ścieżka do Mobs. jest nieprawidłowa!");
+            plugin.getLogger().severe("Path to Mobs. is wrong!");
         }
 
         ConfigurationSection cfg = plugin.configManager.getMobsConfig().getConfigurationSection("Mobs.");
 
         if (cfg == null) {
-            plugin.getLogger().severe("CFG mobów JEST NULLEM");
+            plugin.getLogger().severe("Mobs configuration doesn't exist!");
             return;
         }
 
         for (String mob : cfg.getKeys(false)) {
 
-            EntityType mobType = EntityType.valueOf(cfg.getString(mob + ".EntityType"));
+            EntityType mobType = EntityType.ZOMBIE;
+            String mobTypePath = cfg.getString(mob + ".EntityType");
 
-            if (mobType == null) {
-                plugin.getLogger().severe(mob + " Setting default ZOMBIE");
-                mobType = EntityType.ZOMBIE;
+            if (mobTypePath != null) {
+                try {
+                    mobType = EntityType.valueOf(mobTypePath);
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(mob + " Setting default ZOMBIE");
+                    mobType = EntityType.ZOMBIE;
+                }
             }
 
-            String mobName = cfg.getString(mob + ".MobName");
+            String mobName = "TestName1";
+            String mobNamePath = cfg.getString(mob + ".MobName");
 
-            if (mobName == null) {
-                plugin.getLogger().severe(mob + " Setting default MobName");
-                mobName = "TestName1";
+            if (mobNamePath != null) {
+                try {
+                    mobName = mobNamePath;
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(mob + " Setting default MobName");
+                    mobName = "TestName1";
+                }
             }
 
-            String displayName = cfg.getString(mob + ".DisplayName");
+            String displayName = "<red>Default Display Name";
+            String displayNamePath = cfg.getString(mob + ".DisplayName");
 
-            if (displayName == null) {
-                plugin.getLogger().severe(mob + " Setting default displayName");
-                displayName = "<red>Default Display Name";
+            if (displayNamePath != null) {
+                try {
+                    displayName = displayNamePath;
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(mob + " Setting default displayName to <red>Default Display Name");
+                    displayName = "<red>Default Display Name";
+                }
             }
 
-            String customType = cfg.getString(mob + ".CustomType");
+            String customType = "";
+            String customTypePath = cfg.getString(mob + ".CustomType");
 
-            if (customType == null) {
-                plugin.getLogger().severe(mob + " Setting default customType");
-                customType = "";
+            if (customTypePath != null) {
+                try {
+                    customType = customTypePath;
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(mob + " Setting default customType to empty");
+                    customType = "";
+                }
             }
 
-            double mobHealth = Double.parseDouble(cfg.getString(mob + ".Health"));
+            double mobHealth = 0;
+            String mobHealthPath = cfg.getString(mob + ".Health");
 
-            if (mobHealth <= 0) {
-                plugin.getLogger().severe(mob + " Setting default Health to 1");
-                mobHealth = 1;
+            if (mobHealthPath != null) {
+                try {
+                    mobHealth = Double.parseDouble(mobHealthPath);
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(mob + " Setting default Health to 1");
+                    mobHealth = 1;
+                }
+                if (mobHealth <= 0) {
+                    plugin.getLogger().severe(mob + " Setting default Health to 1");
+                    mobHealth = 1;
+                }
             }
 
-            int droppedExp = cfg.getInt(mob + ".DropedEXP");
+            int droppedExp = 0;
+            String droppedExpPath = cfg.getString(mob + ".DropedEXP");
 
-            if (droppedExp > 0) {
-                plugin.getLogger().severe(mob + " Setting default droppedExp");
-                droppedExp = 0;
+
+            if (droppedExpPath != null) {
+                try {
+                    droppedExp = Integer.parseInt(droppedExpPath);
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(mob + " Setting default droppedExp to 0 from catch");
+                    droppedExp = 0;
+                }
+                if (droppedExp < 0) {
+                    plugin.getLogger().severe(mob + " Setting default droppedExp to 0 from if");
+                    droppedExp = 0;
+                }
             }
 
-            boolean customNameVisible = cfg.getBoolean(mob + ".CustomNameVisible");
+            boolean customNameVisible = true;
+            String customNameVisiblePath = cfg.getString(mob + ".CustomNameVisible");
 
-            boolean burnInDay = cfg.getBoolean(mob + ".BurnInDay");
-
-            boolean hasAI = cfg.getBoolean(mob + ".HasAI");
-
-            boolean isBaby = cfg.getBoolean(mob + ".isBany");
-
-            List<String> drop = cfg.getStringList(mob + ".Drop");
-
-            ConfigurationSection equipementSection = cfg.getConfigurationSection(mob + ".Equipement");
-
-            if (equipementSection == null) {
-                plugin.getLogger().severe(mob + " cfgEq nie istnieje");
+            if (customNameVisiblePath != null) {
+                try {
+                    customNameVisible = Boolean.parseBoolean(customNameVisiblePath);
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(mob + " Setting default customNameVisible to true");
+                    customNameVisible = true;
+                }
             }
 
-            if (equipementSection != null) {
+            boolean burnInDay = true;
+            String burnInDayPath = cfg.getString(mob + ".BurnInDay");
 
-                for (String section : equipementSection.getKeys(false)) {
+            if (burnInDayPath != null) {
+                try {
+                    burnInDay = Boolean.parseBoolean(burnInDayPath);
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(mob + " Setting default burnInDay to false");
+                    burnInDay = false;
+                }
+            }
 
-                    if (section != null) {
-                        ConfigurationSection eqPieceSection = equipementSection.getConfigurationSection(section);
+            boolean hasAI = true;
+            String hasAIyPath = cfg.getString(mob + ".HasAI");
+
+            if (hasAIyPath != null) {
+                try {
+                    hasAI = Boolean.parseBoolean(hasAIyPath);
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(mob + " Setting default hasAI to false");
+                    hasAI = false;
+                }
+            }
+
+            boolean isBaby = true;
+            String isBabyPath = cfg.getString(mob + ".IsBaby");
+
+            if (isBabyPath != null) {
+                try {
+                    isBaby = Boolean.parseBoolean(isBabyPath);
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(mob + " Setting default IsBaby to false");
+                    isBaby = false;
+                }
+            }
+
+            List<String> drop = new ArrayList<>();
+            String dropPath = cfg.getString(mob + ".Drop");
+
+            if (!cfg.getStringList(mob + ".Drop").isEmpty() || dropPath != null) {
+                try {
+                    drop = cfg.getStringList(mob + ".Drop");
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(mob + " Setting default drop to null");
+                    drop.add("None:100");
+                }
+            }
+
+            if (cfg.getConfigurationSection(mob + ".Equipement") != null) {
+                ConfigurationSection equipementSection = cfg.getConfigurationSection(mob + ".Equipement");
+
+                if (equipementSection == null) {
+                    plugin.getLogger().severe(mob + " doesn't exist!");
+                }
+
+                if (equipementSection != null) {
+
+                    for (String section : equipementSection.getKeys(false)) {
+
+                        if (section != null) {
+                            ConfigurationSection eqPieceSection = equipementSection.getConfigurationSection(section);
 
                             if (eqPieceSection != null) {
 
-                                Material itemType = Material.getMaterial(eqPieceSection.getString("Item").toUpperCase(Locale.ROOT));
+                                Material itemType = Material.getMaterial(Objects.requireNonNull(eqPieceSection.getString("Item")).toUpperCase(Locale.ROOT));
 
                                 if (Material.matchMaterial(String.valueOf(itemType)) == null) {
                                     itemType = Material.AIR;
                                 }
 
+                                assert itemType != null;
                                 ItemStack item = new ItemStack(itemType, 1);
 
                                 ItemMeta meta = item.getItemMeta();
 
                                 if (meta != null) {
-                                    String enchantment = eqPieceSection.getString("Enchants");
+                                    if (eqPieceSection.getString("Enchants") != null) {
+                                        String enchantment = eqPieceSection.getString("Enchants");
 
-                                    if (enchantment.equals("None") || enchantment == null) {
-                                        meta.setUnbreakable(true);
-                                    } else
-                                    if (!enchantment.equals("None") || enchantment != null) {
-                                        String[] splitedEnchants = enchantment.split(",");
-                                        for (String ench : splitedEnchants) {
-                                            String[] splitted = ench.split(":");
-                                            meta.addEnchant(Enchantment.getByKey(NamespacedKey.minecraft(splitted[0].toLowerCase())), Integer.parseInt(splitted[1]), false);
-                                            //Add anty wrong enchant system
-                                            meta.setUnbreakable(true);
+                                        if (enchantment != null) {
+                                            if (enchantment.equals("None")) {
+                                                meta.setUnbreakable(true);
+                                            } else {
+                                                String[] splitedEnchants = enchantment.split(",");
+                                                for (String ench : splitedEnchants) {
+                                                    try {
+                                                        String[] splitted = ench.split(":");
+                                                        if (Enchantment.getByKey(NamespacedKey.minecraft(splitted[0].toLowerCase())) != null) {
+                                                            meta.addEnchant(Objects.requireNonNull(Enchantment.getByKey(NamespacedKey.minecraft(splitted[0].toLowerCase()))),
+                                                                    Integer.parseInt(splitted[1]), false);
+                                                        }
+                                                        meta.setUnbreakable(true);
+                                                    } catch (IllegalArgumentException exp) {
+                                                        plugin.getLogger().severe(ench + " is wrong!");
+                                                        meta.setUnbreakable(true);
+                                                    }
+                                                }
+                                            }
                                         }
-                                    }
 
+                                    }
                                     item.setItemMeta(meta);
                                 }
 
                                 mobItems.put(section, item);
+                            }
                         }
                     }
                 }
             }
 
-            CustomMob customMob = new CustomMob(mobType, displayName, customType, mobName, mobHealth, droppedExp, customNameVisible, burnInDay, hasAI, isBaby, mobItems, drop);
+            boolean respNaturally = true;
+
+            if (cfg.getString(mob + ".RandomRespawn") != null) {
+                try {
+                    respNaturally = cfg.getBoolean(mob + ".RandomRespawn");
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(mob + " Setting default rendomRespawn to false");
+                    respNaturally = false;
+                }
+            }
+
+            List<String> respInstead = new ArrayList<>();
+
+            if (!cfg.getStringList(mob + ".RespInstead").isEmpty() || cfg.getString(mob + ".RespInstead") != null) {
+                try {
+                    respInstead = cfg.getStringList(mob + ".RespInstead");
+                } catch (IllegalArgumentException exp) {
+                    plugin.getLogger().severe(mob + " Setting default respInstead to Default at 100%");
+                    respInstead.add("Default:100");
+                }
+            }
+
+            CustomMob customMob = new CustomMob(mobType, displayName, customType,
+                    mobName, mobHealth, droppedExp,
+                    customNameVisible, burnInDay, hasAI,
+                    isBaby, respNaturally , mobItems,
+                    drop, respInstead);
 
             customMobsList.add(customMob);
             customMobMap.put(mobName, customMob);

@@ -33,8 +33,10 @@ public class CustomMob {
     private boolean burnInDay;
     private boolean AI;
     private boolean isBaby;
+    private boolean respNaturally;
     private Map<String, ItemStack> mobEquipement;
     private List<String> mobDrop;
+    private List<String> respInstead;
 
     public void spawnEntity(Location location) {
         Entity entity = location.getWorld().spawnEntity(location, entityType);
@@ -58,8 +60,7 @@ public class CustomMob {
 
             if (isBaby) {
                 zombie.setBaby();
-            }
-            if (!isBaby) {
+            } else {
                 zombie.isAdult();
             }
 

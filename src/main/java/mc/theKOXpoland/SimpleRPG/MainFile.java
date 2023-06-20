@@ -1,11 +1,9 @@
 package mc.theKOXpoland.SimpleRPG;
 
 import dev.jorel.commandapi.CommandAPI;
-import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import mc.theKOXpoland.SimpleRPG.Commands.ApiCommands.ConfigCommand;
 import mc.theKOXpoland.SimpleRPG.Commands.ApiCommands.CreateCommand;
 import mc.theKOXpoland.SimpleRPG.Commands.SpiralTest;
-import mc.theKOXpoland.SimpleRPG.Commands.TestSummon;
 import mc.theKOXpoland.SimpleRPG.Customs.CustomArmors;
 import mc.theKOXpoland.SimpleRPG.Customs.CustomWeapon;
 import mc.theKOXpoland.SimpleRPG.Customs.CustomMob;
@@ -16,9 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.Objects;
-import java.util.function.Function;
 
 public class MainFile extends JavaPlugin {
 
@@ -32,6 +28,7 @@ public class MainFile extends JavaPlugin {
     public CustomMob customMob;
     public CustomWeapon customWeapon;
     public CustomArmors customArmors;
+    public CooldownManager cooldownManager;
 
     public NamespacedKey Key_NBT_Name = new NamespacedKey(this, "NBTName");
     public NamespacedKey Key_NBT_Type = new NamespacedKey(this, "NBTtype");
@@ -51,6 +48,8 @@ public class MainFile extends JavaPlugin {
         customMob = new CustomMob(this);
         customWeapon = new CustomWeapon(this);
         customArmors = new CustomArmors(this);
+
+        cooldownManager = new CooldownManager();
 
         ConfigCommand confingCommand = new ConfigCommand(this);
         CreateCommand createCommand = new CreateCommand(this);
@@ -75,8 +74,7 @@ public class MainFile extends JavaPlugin {
 
         CustomItemsManager.getItemsNamesList();
         CustomItemsManager.getCustomItemsMap();
-
-        Objects.requireNonNull(getCommand("testsummon")).setExecutor(new TestSummon());
+        
         Objects.requireNonNull(getCommand("spiraltest")).setExecutor(new SpiralTest(this));
 
         Bukkit.getPluginManager().registerEvents(new ItemDepravation(this),this);

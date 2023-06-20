@@ -4,7 +4,7 @@ Weapons:
     ItemAmount: '1'
     #CustomModelData is used for textures with ItemMaterial and texturepack
     CustomModelData: '0'
-    #Name used in system and command such as /create, keep it as one sentience
+    #ItemName used in system and command such as /create, keep it as one sentience
     ItemName: ShowcaseWeaponItem
     #CustomType options: Sword
     CustomType: Sword

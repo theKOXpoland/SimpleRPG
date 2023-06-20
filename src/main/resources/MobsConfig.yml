@@ -1,18 +1,27 @@
 Mobs:
   ShowcaseMob:
     EntityType: ZOMBIE
+    #MobName used in system and command such as /create, keep it as one sentience
     MobName: ShowcaseMob
     Health: 10
+    #Amout if EXP dropped by Mob on death
     DropedEXP: 0
     DisplayName: "<red>Showcase Mob name"
+    #CustomType is an indicator what type the creature is, for now it doesn't do anything
     CustomType: "Hostile"
+    #Should the DisplayName be visible or not
     CustomNameVisible: true
+    #Should burn in sun
     BurnInDay: false
+    #Has AI form his base Entiti
     HasAI: false
-    isBaby: false
+    #Should resp as baby variant
+    IsBaby: false
     Equipement:
       Helmet:
+        #Material:level, material name should be provided form /give command or "None"
         Item: IRON_HELMET
+        #Enchant:level, enchant name should be provided from /enchant command or "None"
         Enchants: None
       Chestplate:
         Item: IRON_CHESTPLATE
@@ -29,4 +38,11 @@ Mobs:
       OffHand:
         Item: IRON_SWORD
         Enchants: luck_of_the_sea:1
+    #Item:chance, Item can be CustomItem from this plugin or normal item from /give command, None = air
     Drop: [None:10, PodstawowaNazwa2:40, PodstawowaNazwa1:40]
+    #If you want to resp Mob randomly set to true
+    RandomRespawn: true
+    #If RandomRespawn is true then this list takes the mob:chance and resps instead of given mob
+    #Example: Zombie is resping naturally, then plugin fires and there is 50% chance that zombie is custom one and 25% that normal zombie will be spawn
+    #If the combined chance for mob and default is less than 100, then plugin will extend default to total chance of 100
+    RespInstead: [Default:25,Zombie:50,Creeper:25]
