@@ -1,17 +1,15 @@
 package mc.theKOXpoland.SimpleRPG.Tasks;
 
+import mc.theKOXpoland.SimpleRPG.Items.Customs.CustomWeapon;
 import mc.theKOXpoland.SimpleRPG.MainFile;
-import net.kyori.adventure.text.Component;
+import mc.theKOXpoland.SimpleRPG.Others.Customs.CustomChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.List;
 
 public class ItemHeldTask extends BukkitRunnable {
 
@@ -34,37 +32,25 @@ public class ItemHeldTask extends BukkitRunnable {
             return;
         }
 
-        ItemMeta meta = item.getItemMeta();
-        if (meta == null) {
+        CustomWeapon customWeapon = CustomChecker.getCustomWeapon(item);
+
+        if (customWeapon == null) {
             return;
         }
 
-        List<Component> lore = meta.lore();
-        if (lore == null || lore.isEmpty()) {
-            return;
-        }
+        String attackSpeed = customWeapon.getAttackSpeed();
 
-        if (meta.getPersistentDataContainer().has(plugin.Key_NBT_First_Attack)) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 5, 0, false, false, false));
+        switch (attackSpeed) {
+            case "Fast" ->
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 5, -1, false, false, false));
+            case "Slow" ->
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 5, 1, false, false, false));
+            case "VerySlow" ->
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 5, 5, false, false, false));
+            case "UltraSlow" ->
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 5, 10, false, false, false));
+            default -> player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
         }
-        if (meta.getPersistentDataContainer().has(plugin.Key_NBT_Second_Attack)) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 5, 6, false, false, false));
-        }
-        if (!meta.getPersistentDataContainer().has(plugin.Key_NBT_First_Attack) || !meta.getPersistentDataContainer().has(plugin.Key_NBT_Second_Attack)) {
-            player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
-        }
-
-        /*String SzybkiAtak = "§7Prędkość: §fSzybki";
-        String PowolnyAtak = "§7Prędkość: §8Powolny";
-
-        if (lore.contains(SzybkiAtak)) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 5, 0, false, false, false));
-        } else
-        if (lore.contains(PowolnyAtak)) {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 5, 6, false, false, false));
-        } else {
-            player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
-        }*/
 
     }
 }

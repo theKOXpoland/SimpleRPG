@@ -1,0 +1,65 @@
+Weapons:
+  ShowcaseWeapon:
+    ItemMaterialType: IRON_SWORD
+    ItemAmount: '1'
+    #CustomModelData is used for textures with ItemMaterial and texturepack
+    CustomModelData: '0'
+    #ItemName used in system and command such as /create, keep it as one sentience
+    ItemName: ShowcaseWeaponItem
+    #CustomType options: Melee, Wand
+    CustomType: Melee
+    Unbreakable: true
+    DisplayName: '<grey>Showcase item name'
+    #Should item be able to break blocks
+    BreakBlocks: false
+    #AttackSpeed options: UltraSlow, VerySlow, Slow, Normal, Fast, VeryFast, UltraFast, Basic (Basic weapon speed)
+    AttackSpeed: Basic
+    Attacks:
+      #PPM Attack
+      FirstAttack: Dash
+      #Drop (Q) Attack
+      SecondAttack: Dash
+    Lore:
+      LoreText:
+        - ''
+        - '<grey>Obrażenia: %damage%'
+        - '<grey>Prędkość: %attackSpeed%'
+        - ''
+        - '<grey>Umiejętność <gold>PPM: %first_attack%'
+        - '<grey>Umiejętność <gold>Q: %second_attack%'
+        - ''
+    Enchants:
+      #Enchant:level, enchant name provided from /enchant command
+      Enchant: luck_of_the_sea:1,unbreaking:3
+    Stats:
+      #Basic damage is 1, every number provided lower is ADDED to 1. Example: Damage: 1 will be 2 (1+1)
+      Damage: '0.5'
+      #Range in blocks of attack if weapon is a wand
+      Range: 0
+  DefaultWand:
+    ItemMaterialType: STONE_SHOVEL
+    ItemAmount: '1'
+    CustomModelData: '0'
+    ItemName: DefaultWand
+    CustomType: Wand
+    Unbreakable: true
+    DisplayName: '<grey>Default Wand'
+    BreakBlocks: false
+    AttackSpeed: Fast
+    Attacks:
+      FirstAttack: None
+      SecondAttack: None
+    Lore:
+      LoreText:
+        - ''
+        - '<grey>Obrażenia: %damage%'
+        - '<grey>Prędkość: %attackSpeed%'
+        - ''
+        - '<grey>Umiejętność <gold>PPM: %first_attack%'
+        - '<grey>Umiejętność <gold>Q: %second_attack%'
+        - ''
+    Enchants:
+      Enchant: luck_of_the_sea:1
+    Stats:
+      Damage: '0'
+      Range: 10

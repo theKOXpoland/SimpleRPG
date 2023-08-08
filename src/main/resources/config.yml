@@ -1,1 +1,3 @@
 ItemHeldTask: 0.5
+CooldownTask: 0.5
+TargetPlayerTask: 1

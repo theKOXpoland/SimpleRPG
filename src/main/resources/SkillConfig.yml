@@ -1,0 +1,14 @@
+Skills:
+  Dash:
+    Distance: 1.2
+    Volume: 0.5
+    Sound: BLOCK_PISTON_EXTEND
+    Cooldown: 2.0
+  Teleport:
+    Distance: 5
+    Volume: 0.5
+    Sound: ENTITY_ENDERMAN_TELEPORT
+    Particle: PORTAL
+    Cooldown: 1.0
+  Arrow:
+    Cooldown: 1.0

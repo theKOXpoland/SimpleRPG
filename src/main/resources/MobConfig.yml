@@ -1,0 +1,113 @@
+Mobs:
+  ShowcaseMob:
+    EntityType: ZOMBIE
+    #MobName used in system and command such as /create, keep it as one sentience
+    MobName: ShowcaseMob
+    #CustomEntityType is used to determine if mob should be a Citizens NPC or regular Entity
+    #Options: NPC or Entity
+    CustomEntityType: Entity
+    #Health of the custom mob
+    Health: 10
+    #Amout if EXP dropped by Mob on death
+    DropedEXP: 0
+    DisplayName: "<red>Showcase Mob name"
+    #CustomType is an indicator what type the creature is
+    #Avialable types: Hostile, Neutral, Friendly
+    CustomType: Hostile
+    #Should the DisplayName be visible or not
+    CustomNameVisible: true
+    #Should burn in sun
+    BurnInDay: false
+    #Has AI form his base Entiti
+    HasAI: true
+    #Should resp as baby variant
+    IsBaby: false
+    #Should have applied glowing effect
+    IsGlowing: true
+    #Should make sounds
+    isSilent: true
+    #Should mob target nearest player
+    shouldTarget: true
+    #Should mob damage players in range
+    shouldDamage: true
+    Equipement:
+      Helmet:
+        #Material:level, material name should be provided form /give command or "None"
+        Item: IRON_HELMET
+        #Enchant:level, enchant name should be provided from /enchant command or "None"
+        Enchants: None
+      Chestplate:
+        Item: IRON_CHESTPLATE
+        Enchants: luck_of_the_sea:1,unbreaking:5
+      Leggings:
+        Item: None
+        Enchants: luck_of_the_sea:1
+      Boots:
+        Item: IRON_BOOTS
+        Enchants: luck_of_the_sea:1
+      MainHand:
+        Item: IRON_SWORD
+        Enchants: luck_of_the_sea:1
+      OffHand:
+        Item: IRON_SWORD
+        Enchants: luck_of_the_sea:1
+    #Item:chance, Item can be CustomItem from this plugin or normal item from /give command, None = air
+    Drop: [None:10, ShowcaseWeaponItem:70, DefaultWand:20]
+    #If you want to resp Mob randomly set to true
+    RandomRespawn: true
+    #If RandomRespawn is true then this list takes the mob:chance and resps instead of given mob
+    #Example: Zombie is resping naturally, then plugin fires and there is 50% chance that zombie is custom one and 25% that normal zombie will be spawn
+    #If the combined chance for mob and default is less than 100, then plugin will extend default to total chance of 100
+    RespInstead: [Default:25,Zombie:50,Creeper:25]
+    #World should be names of world folders or "All"
+    WorldResp: [All]
+    #Biome should be provided from /locate biome command or "All"
+    BiomeResp: [All]
+    Stats:
+      #Pursue speed
+      Speed: 1
+      #Attack damage
+      Damage: 1
+  Default1:
+    EntityType: VILLAGER
+    MobName: DefaultMob
+    CustomEntityType: NPC
+    Health: 10
+    DropedEXP: 0
+    DisplayName: "<red>Default Mob"
+    CustomType: Hostile
+    CustomNameVisible: true
+    BurnInDay: false
+    HasAI: true
+    IsBaby: false
+    IsGlowing: true
+    isSilent: true
+    shouldTarget: true
+    shouldDamage: true
+    Equipement:
+      Helmet:
+        Item: IRON_HELMET
+        Enchants: None
+      Chestplate:
+        Item: IRON_CHESTPLATE
+        Enchants: luck_of_the_sea:1,unbreaking:5
+      Leggings:
+        Item: None
+        Enchants: luck_of_the_sea:1
+      Boots:
+        Item: IRON_BOOTS
+        Enchants: None
+      MainHand:
+        Item: IRON_SWORD
+        Enchants: luck_of_the_sea:1
+      OffHand:
+        Item: IRON_SWORD
+        Enchants: luck_of_the_sea:1
+    Drop: [None:10, ShowcaseWeaponItem:90, DefaultWand:20]
+    RandomRespawn: true
+    RespInstead: [Default:25,Zombie:50,Creeper:25]
+    WorldResp: [All]
+    BiomeResp: [All]
+    Stats:
+      Speed: 0.8
+      Damage: 1

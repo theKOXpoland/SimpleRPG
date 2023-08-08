@@ -1,4 +1,0 @@
-#Plugin losuje liczbę od 0 do 99, jeżeli wypadnie liczba mniejsza-równa tej niżej to następuje akcja
-itemChance: 50
-#Nazwy itemów z "ItemName:", po : dajemy szanse na drop
-items: [PodstawowaNazwa2:50, PodstawowaNazwa1:50]

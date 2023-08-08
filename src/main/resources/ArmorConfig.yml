@@ -1,0 +1,35 @@
+Armors:
+  ShowcaseArmor:
+    ItemMaterialType: IRON_BOOTS
+    ItemAmount: '1'
+    #CustomModelData is used for textures with ItemMaterial and texturepack
+    CustomModelData: '0'
+    #ItemName used in system and command such as /create, keep it as one sentience
+    ItemName: ShowcaseArmorItem
+    Unbreakable: true
+    DisplayName: '<grey>Showcase item name'
+    Lore:
+      LoreText:
+        - ''
+        - '<grey>Buty dające styl'
+        - '<grey>Oraz prędkość wiatru'
+        - ''
+    Enchants:
+      Enchant: luck_of_the_sea:1,unbreaking:3
+  Default1:
+    ItemMaterialType: DIAMOND_BOOTS
+    ItemAmount: '1'
+    #CustomModelData is used for textures with ItemMaterial and texturepack
+    CustomModelData: '0'
+    #ItemName used in system and command such as /create, keep it as one sentience
+    ItemName: DefaultArmor
+    Unbreakable: true
+    DisplayName: '<grey>Default Armor'
+    Lore:
+      LoreText:
+        - ''
+        - '<grey>Buty dające styl'
+        - '<grey>Oraz prędkość wiatru'
+        - ''
+    Enchants:
+      Enchant: luck_of_the_sea:1
