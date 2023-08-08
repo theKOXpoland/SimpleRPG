@@ -1,8 +1,6 @@
 # SimpleRPG
 ## 👷 Work in progress! 👷
 
----
-
 ### 📋 About:
 
 SimpleRPG is my take on trying to learn and create a customizable RPG plugin for Minecraft 1.20.
