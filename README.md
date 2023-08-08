@@ -1,5 +1,7 @@
 # SimpleRPG
-## 👷 Work in progress! 👷
+### 👷 Work in progress! 👷
+
+---
 
 ### 📋 About:
 
