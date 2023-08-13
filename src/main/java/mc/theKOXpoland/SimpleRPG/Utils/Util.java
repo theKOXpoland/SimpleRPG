@@ -8,6 +8,12 @@ import java.math.RoundingMode;
 import java.util.Random;
 
 public class Util {
+<<<<<<< HEAD
+=======
+    /*public static String fix(String text) {
+        return ChatColor.translateAlternateColorCodes('&', text);
+    }*/
+>>>>>>> main
 
     public static Component mm(String text) {
         MiniMessage mm = MiniMessage.miniMessage();

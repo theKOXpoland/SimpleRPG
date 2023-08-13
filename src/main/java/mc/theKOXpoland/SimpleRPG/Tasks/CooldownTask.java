@@ -1,7 +1,11 @@
 package mc.theKOXpoland.SimpleRPG.Tasks;
 
 import mc.theKOXpoland.SimpleRPG.MainFile;
+<<<<<<< HEAD
 import mc.theKOXpoland.SimpleRPG.Others.Managers.CooldownManager;
+=======
+import mc.theKOXpoland.SimpleRPG.Managers.CooldownManager;
+>>>>>>> main
 import mc.theKOXpoland.SimpleRPG.Utils.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -31,8 +35,15 @@ public class CooldownTask extends BukkitRunnable {
 
             long cooldown = CooldownManager.getCooldown(uuid);
 
+<<<<<<< HEAD
             if (cooldown+1 > 0) {
                 player.sendActionBar(Util.mm("<dark_red><bold>! <red>Attack <grey>Cooldown: <dark_grey>" + Util.roundDouble(cooldown+1, 2)
+=======
+            if (cooldown <= 0) {
+                player.sendActionBar(Util.mm(""));
+            } else {
+                player.sendActionBar(Util.mm("<dark_red><bold>! <red>Attack <grey>Cooldown: <dark_grey>" + Util.roundDouble(cooldown, 2)
+>>>>>>> main
                         + " <dark_red><bold>!<reset>"));
             }
         }

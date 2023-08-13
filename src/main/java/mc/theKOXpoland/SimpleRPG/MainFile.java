@@ -1,6 +1,7 @@
 package mc.theKOXpoland.SimpleRPG;
 
 import dev.jorel.commandapi.CommandAPI;
+<<<<<<< HEAD
 import mc.theKOXpoland.SimpleRPG.Attacks.Listeners.PlayerSkillUse;
 import mc.theKOXpoland.SimpleRPG.Commands.ApiCommands.ConfigCommand;
 import mc.theKOXpoland.SimpleRPG.Commands.ApiCommands.CreateCommand;
@@ -23,6 +24,16 @@ import mc.theKOXpoland.SimpleRPG.Others.Listeners.ChestOpener;
 import mc.theKOXpoland.SimpleRPG.Attacks.Listeners.WeaponSkill;
 import mc.theKOXpoland.SimpleRPG.Others.Managers.ConfigManager;
 import mc.theKOXpoland.SimpleRPG.Attacks.Managers.SkillManager;
+=======
+import mc.theKOXpoland.SimpleRPG.Commands.ApiCommands.ConfigCommand;
+import mc.theKOXpoland.SimpleRPG.Commands.ApiCommands.CreateCommand;
+import mc.theKOXpoland.SimpleRPG.Commands.SpiralTest;
+import mc.theKOXpoland.SimpleRPG.Customs.CustomArmors;
+import mc.theKOXpoland.SimpleRPG.Customs.CustomWeapon;
+import mc.theKOXpoland.SimpleRPG.Customs.CustomMob;
+import mc.theKOXpoland.SimpleRPG.Listeners.*;
+import mc.theKOXpoland.SimpleRPG.Managers.*;
+>>>>>>> main
 import mc.theKOXpoland.SimpleRPG.Tasks.CooldownTask;
 import mc.theKOXpoland.SimpleRPG.Tasks.ItemHeldTask;
 import mc.theKOXpoland.SimpleRPG.Tasks.TargetPlayerTask;
@@ -102,17 +113,22 @@ public class MainFile extends JavaPlugin {
 
         skillManager.loadSkills();
 
+<<<<<<< HEAD
         CustomItemsManager.loadAllCustomItemsNamesList();
         CustomItemsManager.loadAllCustomItemsMap();
 
         SentinelPlugin.instance.registerIntegration(new CustomMob(this));
+=======
+        CustomItemsManager.loadItemsNamesList();
+        CustomItemsManager.loadCustomItemsMap();
+>>>>>>> main
         
         Objects.requireNonNull(getCommand("spiraltest")).setExecutor(new SpiralTest(this));
 
         Bukkit.getPluginManager().registerEvents(new ItemDepravation(this),this);
         Bukkit.getPluginManager().registerEvents(new ItemSwapEvent(this),this);
         Bukkit.getPluginManager().registerEvents(new WeaponSkill(this),this);
-        Bukkit.getPluginManager().registerEvents(new MobsRespawnEvent(this),this);
+        Bukkit.getPluginManager().registerEvents(new MobsRespawnEvent(),this);
         Bukkit.getPluginManager().registerEvents(new ChestOpener(this), this);
         Bukkit.getPluginManager().registerEvents(new MobsDeathEvent(this), this);
         Bukkit.getPluginManager().registerEvents(new TargetEvent(this), this);
@@ -127,8 +143,12 @@ public class MainFile extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new AttackEventHandler(), this);
 
         new ItemHeldTask(this).runTaskTimer(this,0L,getConfig().getInt("ItemHeldTask") * 20L);
+<<<<<<< HEAD
         new CooldownTask(this).runTaskTimer(this, 0, getConfig().getInt("CooldownTask") * 20L);
         new TargetPlayerTask(this).runTaskTimer(this, 0, getConfig().getInt("TargetPlayerTask") * 20L);
+=======
+        new CooldownTask(this).runTaskTimer(this, 0, 20);
+>>>>>>> main
 
         Bukkit.getLogger().info("[SimpleRPG]" + ANSI_GREEN + " Activated!" +  ANSI_RESET);
     }
@@ -136,12 +156,17 @@ public class MainFile extends JavaPlugin {
     @Override
     public void onDisable() {
         CommandAPI.onDisable();
+<<<<<<< HEAD
         CitizensAPI.getNPCRegistries().forEach(NPCRegistry::deregisterAll);
         //configManager.saveConfig();
         CustomItemsManager.clearAllCustomLists();
         CustomItemsManager.clearAllCustomMaps();
         MobManager.customMobsList.clear();
         MobManager.customMobMap.clear();
+=======
+        configManager.saveConfig();
+
+>>>>>>> main
     }
 
 }
