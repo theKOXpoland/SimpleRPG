@@ -2,15 +2,15 @@ package mc.theKOXpoland.SimpleRPG.Utils;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.entity.Player;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 public class Util {
-    /*public static String fix(String text) {
-        return ChatColor.translateAlternateColorCodes('&', text);
-    }*/
 
     public static Component mm(String text) {
         MiniMessage mm = MiniMessage.miniMessage();

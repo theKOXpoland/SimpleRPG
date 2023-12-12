@@ -2,11 +2,11 @@ package mc.theKOXpoland.SimpleRPG.Managers;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import mc.theKOXpoland.SimpleRPG.Utils.Util;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class CooldownManager {
 
@@ -25,6 +25,10 @@ public class CooldownManager {
 
             if (System.currentTimeMillis() - timeWrapper.getAttachTime() > timeWrapper.getCooldown() * 1000) {
                 iterator.remove();
+            }
+            Player player = Bukkit.getPlayer(next.getKey());
+            if (player != null) {
+                player.sendActionBar(Util.mm(""));
             }
         }
     }

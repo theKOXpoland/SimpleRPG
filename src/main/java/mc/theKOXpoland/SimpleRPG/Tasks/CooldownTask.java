@@ -31,10 +31,8 @@ public class CooldownTask extends BukkitRunnable {
 
             long cooldown = CooldownManager.getCooldown(uuid);
 
-            if (cooldown <= 0) {
-                player.sendActionBar(Util.mm(""));
-            } else {
-                player.sendActionBar(Util.mm("<dark_red><bold>! <red>Attack <grey>Cooldown: <dark_grey>" + Util.roundDouble(cooldown, 2)
+            if (cooldown+1 > 0) {
+                player.sendActionBar(Util.mm("<dark_red><bold>! <red>Attack <grey>Cooldown: <dark_grey>" + Util.roundDouble(cooldown+1, 2)
                         + " <dark_red><bold>!<reset>"));
             }
         }

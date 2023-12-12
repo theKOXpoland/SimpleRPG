@@ -16,140 +16,196 @@ public class ConfigManager {
         this.plugin = plugin;
     }
 
-    private FileConfiguration weaponsConfig;
-    private FileConfiguration chestsConfig;
-    private FileConfiguration mobsConfig;
-    private FileConfiguration armorsConfg;
-    private File weaponsConfigFile;
-    private File chestsConfigFile;
-    private File mobsConfigFile;
-    private File armorsConfigFile;
+    private FileConfiguration weaponConfig;
+    private FileConfiguration chestConfig;
+    private FileConfiguration mobConfig;
+    private FileConfiguration armorConfig;
+    private FileConfiguration itemConfig;
+    private FileConfiguration skillConfig;
+    private File weaponConfigFile;
+    private File chestConfigFile;
+    private File mobConfigFIle;
+    private File armorConfigFile;
+    private File itemConfigFile;
+    private File skillConfigFile;
 
     public void reloadConfig() {
-        if (weaponsConfigFile == null) {
-            weaponsConfigFile = new File(plugin.getDataFolder(), "WeaponsConfig.yml");
+        if (weaponConfigFile == null) {
+            weaponConfigFile = new File(plugin.getDataFolder(), "WeaponConfig.yml");
         }
-        if (chestsConfigFile == null) {
-            chestsConfigFile = new File(plugin.getDataFolder(), "ChestsConfig.yml");
+        if (chestConfigFile == null) {
+            chestConfigFile = new File(plugin.getDataFolder(), "ChestConfig.yml");
         }
-        if (mobsConfigFile == null) {
-            mobsConfigFile = new File(plugin.getDataFolder(), "MobsConfig.yml");
+        if (mobConfigFIle == null) {
+            mobConfigFIle = new File(plugin.getDataFolder(), "MobConfig.yml");
         }
-        if (armorsConfigFile == null) {
-            armorsConfigFile = new File(plugin.getDataFolder(), "ArmorsConfig.yml");
+        if (armorConfigFile == null) {
+            armorConfigFile = new File(plugin.getDataFolder(), "ArmorConfig.yml");
         }
-
-        weaponsConfig = YamlConfiguration.loadConfiguration(weaponsConfigFile);
-        chestsConfig = YamlConfiguration.loadConfiguration(chestsConfigFile);
-        mobsConfig = YamlConfiguration.loadConfiguration(mobsConfigFile);
-        armorsConfg = YamlConfiguration.loadConfiguration(armorsConfigFile);
-
-        InputStream defaultWeaponsStream = plugin.getResource("WeaponsConfig.yml");
-        if (defaultWeaponsStream != null) {
-            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultWeaponsStream));
-            weaponsConfig.setDefaults(defaultConfig);
+        if (itemConfigFile == null) {
+            itemConfigFile = new File(plugin.getDataFolder(), "ItemConfig.yml");
+        }
+        if (skillConfigFile == null) {
+            skillConfigFile = new File(plugin.getDataFolder(), "skillConfig.yml");
         }
 
-        InputStream defaultChestsStream = plugin.getResource("ChestsConfig.yml");
-        if (defaultChestsStream != null) {
-            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultChestsStream));
-            chestsConfig.setDefaults(defaultConfig);
+        weaponConfig = YamlConfiguration.loadConfiguration(weaponConfigFile);
+        chestConfig = YamlConfiguration.loadConfiguration(chestConfigFile);
+        mobConfig = YamlConfiguration.loadConfiguration(mobConfigFIle);
+        armorConfig = YamlConfiguration.loadConfiguration(armorConfigFile);
+        itemConfig = YamlConfiguration.loadConfiguration(itemConfigFile);
+        skillConfig = YamlConfiguration.loadConfiguration(skillConfigFile);
+
+        InputStream weaponStream = plugin.getResource("WeaponConfig.yml");
+        if (weaponStream != null) {
+            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(weaponStream));
+            weaponConfig.setDefaults(defaultConfig);
         }
 
-        InputStream defaultMobsStream = plugin.getResource("MobsConfig.yml");
-        if (defaultMobsStream != null) {
-            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultMobsStream));
-            mobsConfig.setDefaults(defaultConfig);
+        InputStream chestStream = plugin.getResource("ChestConfig.yml");
+        if (chestStream != null) {
+            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(chestStream));
+            chestConfig.setDefaults(defaultConfig);
         }
-        InputStream defaultArmorsStream = plugin.getResource("ArmorsConfig.yml");
-        if (defaultArmorsStream != null) {
-            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultArmorsStream));
-            armorsConfg.setDefaults(defaultConfig);
+
+        InputStream mobStream = plugin.getResource("MobConfig.yml");
+        if (mobStream != null) {
+            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(mobStream));
+            mobConfig.setDefaults(defaultConfig);
+        }
+        InputStream armorStream = plugin.getResource("ArmorConfig.yml");
+        if (armorStream != null) {
+            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(armorStream));
+            armorConfig.setDefaults(defaultConfig);
+        }
+        InputStream itemStream = plugin.getResource("ItemConfig.yml");
+        if (itemStream != null) {
+            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(itemStream));
+            itemConfig.setDefaults(defaultConfig);
+        }
+        InputStream skillStream = plugin.getResource("SkillConfig.yml");
+        if (skillStream != null) {
+            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(skillStream));
+            skillConfig.setDefaults(defaultConfig);
         }
     }
 
-    public FileConfiguration getWeaponsConfig() {
-        if (weaponsConfig == null) reloadConfig();
-        return weaponsConfig;
+    public FileConfiguration getWeaponConfig() {
+        if (weaponConfig == null) reloadConfig();
+        return weaponConfig;
     }
 
     public FileConfiguration getChestConfig() {
-        if (chestsConfig == null) reloadConfig();
-        return chestsConfig;
+        if (chestConfig == null) reloadConfig();
+        return chestConfig;
     }
 
-    public FileConfiguration getMobsConfig() {
-        if (mobsConfig == null) reloadConfig();
-        return mobsConfig;
+    public FileConfiguration getMobConfig() {
+        if (mobConfig == null) reloadConfig();
+        return mobConfig;
     }
 
-    public FileConfiguration getArmorsConfg() {
-        if (armorsConfg == null) reloadConfig();
-        return armorsConfg;
+    public FileConfiguration getArmorsConfig() {
+        if (armorConfig == null) reloadConfig();
+        return armorConfig;
+    }
+
+    public FileConfiguration getItemConfig() {
+        if (itemConfig == null) reloadConfig();
+        return itemConfig;
+    }
+
+    public FileConfiguration getSkillConfig() {
+        if (skillConfig == null) reloadConfig();
+        return skillConfig;
     }
 
     public void saveConfig() {
-        if (weaponsConfig == null || weaponsConfigFile == null)
+        if (weaponConfig == null || weaponConfigFile == null)
             return;
         try {
-            getWeaponsConfig().save(this.weaponsConfigFile);
+            getWeaponConfig().save(this.weaponConfigFile);
         } catch (IOException e) {
-            plugin.getLogger().severe("Nie dziala");
+            plugin.getLogger().severe("weaponConfig saveConfig doesn't work");
         }
 
-        if (chestsConfig == null || chestsConfigFile == null)
+        if (chestConfig == null || chestConfigFile == null)
             return;
         try {
-            getChestConfig().save(this.chestsConfigFile);
+            getChestConfig().save(this.chestConfigFile);
         } catch (IOException e) {
-            plugin.getLogger().severe("Nie dziala");
+            plugin.getLogger().severe("chestConfig saveConfig doesn't work");
         }
 
-        if (mobsConfig == null || mobsConfigFile == null)
+        if (mobConfig == null || mobConfigFIle == null)
             return;
         try {
-            getMobsConfig().save(this.mobsConfigFile);
+            getMobConfig().save(this.mobConfigFIle);
         } catch (IOException e) {
-            plugin.getLogger().severe("Nie dziala");
+            plugin.getLogger().severe("mobConfig saveConfig doesn't work");
         }
 
-        if (armorsConfg == null || armorsConfigFile == null)
+        if (armorConfig == null || armorConfigFile == null)
             return;
         try {
-            getArmorsConfg().save(this.armorsConfigFile);
+            getArmorsConfig().save(this.armorConfigFile);
         } catch (IOException e) {
-            plugin.getLogger().severe("Nie dziala");
+            plugin.getLogger().severe("armorConfig saveConfig doesn't work");
+        }
+
+        if (itemConfig == null || itemConfigFile == null)
+            return;
+        try {
+            getItemConfig().save(this.itemConfigFile);
+        } catch (IOException e) {
+            plugin.getLogger().severe("itemConfig saveConfig doesn't work");
+        }
+
+        if (skillConfig == null || skillConfigFile == null)
+            return;
+        try {
+            getSkillConfig().save(this.skillConfigFile);
+        } catch (IOException e) {
+            plugin.getLogger().severe("skillConfig saveConfig doesn't work");
         }
     }
 
     public void saveDefaultConfig() {
-        if (weaponsConfigFile == null) {
-            weaponsConfigFile = new File(plugin.getDataFolder(), "WeaponsConfig.yml");
+        if (weaponConfigFile == null) {
+            weaponConfigFile = new File(plugin.getDataFolder(), "WeaponConfig.yml");
         }
 
-        if (chestsConfigFile == null) {
-            chestsConfigFile = new File(plugin.getDataFolder(), "ChestsConfig.yml");
+        if (chestConfigFile == null) {
+            chestConfigFile = new File(plugin.getDataFolder(), "ChestConfig.yml");
         }
 
-        if (mobsConfigFile == null) {
-            mobsConfigFile = new File(plugin.getDataFolder(), "MobsConfig.yml");
+        if (mobConfigFIle == null) {
+            mobConfigFIle = new File(plugin.getDataFolder(), "MobConfig.yml");
         }
 
-        if (armorsConfigFile == null) {
-            armorsConfigFile = new File(plugin.getDataFolder(), "ArmorsConfig.yml");
+        if (armorConfigFile == null) {
+            armorConfigFile = new File(plugin.getDataFolder(), "ArmorConfig.yml");
         }
 
-        if (!this.weaponsConfigFile.exists())
-            plugin.saveResource("WeaponsConfig.yml", false);
-        if (!this.chestsConfigFile.exists())
-            plugin.saveResource("ChestsConfig.yml", false);
-        if (!this.mobsConfigFile.exists())
-            plugin.saveResource("MobsConfig.yml", false);
-        if (!this.armorsConfigFile.exists())
-            plugin.saveResource("ArmorsConfig.yml", false);
+        if (itemConfigFile == null) {
+            itemConfigFile = new File(plugin.getDataFolder(), "ItemConfig.yml");
+        }
+
+        if (skillConfigFile == null) {
+            skillConfigFile = new File(plugin.getDataFolder(), "SkillConfig.yml");
+        }
+
+        if (!this.weaponConfigFile.exists())
+            plugin.saveResource("WeaponConfig.yml", false);
+        if (!this.chestConfigFile.exists())
+            plugin.saveResource("ChestConfig.yml", false);
+        if (!this.mobConfigFIle.exists())
+            plugin.saveResource("MobConfig.yml", false);
+        if (!this.armorConfigFile.exists())
+            plugin.saveResource("ArmorConfig.yml", false);
+        if (!this.itemConfigFile.exists())
+            plugin.saveResource("ItemConfig.yml", false);
+        if (!this.skillConfigFile.exists())
+            plugin.saveResource("SkillConfig.yml", false);
     }
-
-
 }
-
-

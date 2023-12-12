@@ -1,6 +1,6 @@
 package mc.theKOXpoland.SimpleRPG.Listeners;
 
-import mc.theKOXpoland.SimpleRPG.Customs.CustomWeapon;
+import mc.theKOXpoland.SimpleRPG.Constructors.Items.CustomWeapon;
 import mc.theKOXpoland.SimpleRPG.MainFile;
 import mc.theKOXpoland.SimpleRPG.Utils.Util;
 import org.bukkit.Material;
@@ -24,7 +24,7 @@ public class ChestOpener implements Listener {
     }
 
     @EventHandler
-    public void onChestOpen(PlayerInteractEvent  event) {
+    public void onChestOpen(PlayerInteractEvent event) {
 
         Player player = event.getPlayer();
 
@@ -99,8 +99,8 @@ public class ChestOpener implements Listener {
 
                                     chest.getBlockInventory().setItem(slot, chosenWeapon);
 
-                                    System.out.println(player.getName() + " wysolowal " + chosenWeapon.getItemMeta().getPersistentDataContainer()
-                                            .get(plugin.Key_NBT_Name, PersistentDataType.STRING) + " na kordach " + chest.getLocation().getBlock());
+                                    System.out.println(player.getName() + " got " + chosenWeapon.getItemMeta().getPersistentDataContainer()
+                                            .get(plugin.Key_NBT_Name, PersistentDataType.STRING) + " no cords " + chest.getLocation().getBlock());
                                 }
                             }
                         }
